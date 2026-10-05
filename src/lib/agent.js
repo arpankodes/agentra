@@ -1,6 +1,14 @@
 import { chat } from "./llm.js";
 
-const NATURE = `You are an autonomous agent. Work toward your goal step by step. Reply ONLY as JSON: {"status":"done"|"continue","output":string}. Use "done" for the final answer.`;
+// TODO: Add memory, tool use, planning  
+// List of basic tools required for an agent:
+// 1. WEb search
+// 6. API Caller: To interact with external APIs for various services.
+
+const NATURE = `You are an autonomous agent. Work toward your goal step by step. 
+Reply ONLY as JSON: 
+{"status":"done"|"continue","output":string}. 
+Use "done" for the final answer.`;
 
 export class Agent {
     constructor(goal, options = {}) {
@@ -19,3 +27,13 @@ export class Agent {
         }
     }
 }
+
+// planner also needs to consider the budget and time constraints, and prioritize tasks accordingly.
+const planningPrompt = `You are a planner. Given a goal, break it down into steps.
+Reply ONLY as JSON: 
+{"steps": [string]}.`;
+
+const toolUsePrompt = `You are a tool user. Given a goal and a tool, use the tool to achieve the goal.
+Reply ONLY as JSON: 
+{"status":"done"|"continue","output":string}. 
+Use "done" for the final answer.`;
